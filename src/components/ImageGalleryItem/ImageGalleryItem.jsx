@@ -1,42 +1,68 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Modal from 'components/Modal/Modal';
 import PropTypes from 'prop-types';
 
-export default class ImageGalleryItem extends Component {
-  state = {
-    openModal: false,
-  };
+export default function ImageGalleryItem({
+  largeImageURL,
+  tags,
+  webformatURL,
+}) {
+  const [openModal, setOpenModal] = useState(false);
 
-  toggle = () => {
-    console.log('hello');
-    this.setState(prev => {
-      return {
-        openModal: !prev.openModal,
-      };
-    });
-  };
-
-  render() {
-    const { toggle } = this;
-    const { openModal } = this.state;
-    const { largeImageURL, tags, webformatURL } = this.props;
-    return (
-      <>
-        <li className=" ImageGalleryItem" onClick={toggle}>
-          <img
-            loading="lazy"
-            className="ImageGalleryItem-image"
-            src={webformatURL}
-            alt={tags}
-          />
-        </li>
-        {openModal && (
-          <Modal toggle={toggle} image={largeImageURL} tags={tags} />
-        )}
-      </>
-    );
+  function toggle() {
+    setOpenModal(openModal => !openModal);
   }
+
+  return (
+    <>
+      <li className=" ImageGalleryItem" onClick={toggle}>
+        <img
+          loading="lazy"
+          className="ImageGalleryItem-image"
+          src={webformatURL}
+          alt={tags}
+        />
+      </li>
+      {openModal && <Modal toggle={toggle} image={largeImageURL} tags={tags} />}
+    </>
+  );
 }
+
+// export default class ImageGalleryItem extends Component {
+//   state = {
+//     openModal: false,
+//   };
+
+// toggle = () => {
+//   console.log('hello');
+//   this.setState(prev => {
+//     return {
+//       openModal: !prev.openModal,
+//     };
+//   });
+// };
+
+//   render() {
+//     const { toggle } = this;
+//     const { openModal } = this.state;
+//     const { largeImageURL, tags, webformatURL } = this.props;
+// return (
+//   <>
+//     <li className=" ImageGalleryItem" onClick={toggle}>
+//       <img
+//         loading="lazy"
+//         className="ImageGalleryItem-image"
+//         src={webformatURL}
+//         alt={tags}
+//       />
+//     </li>
+//     {openModal && (
+//       <Modal toggle={toggle} image={largeImageURL} tags={tags} />
+//     )}
+//   </>
+// );
+//   }
+// }
 
 ImageGalleryItem.propTypes = {
   largeImageURL: PropTypes.string,
